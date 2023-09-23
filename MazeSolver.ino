@@ -1,4 +1,8 @@
+//=============================Includes===============================================//
+
 #include "HBridgeMotors.h"
+
+//=============================Motors Macros==========================================//
 
 #define inl1 2
 #define inl2 3
@@ -12,6 +16,8 @@
 #define FSpeedL 150  // Faster Speed Left
 #define FSpeedR 150  // Faster Speed Right
 
+//===============================Irs Macros===========================================//
+
 #define irC A0   // Center IR
 #define irCR A1  // Center Right IR
 #define irL A2   // Left IR
@@ -19,9 +25,22 @@
 
 #define isBlack(IR) digitalRead(IR)
 
+//============================Ojbects Initialization==================================//
+
 HBridgeMotors motors(inl1, inl2, enl, inr1, inr2, enr);
 
+//============================Functions Declerations==================================//
+
 void makeDecision();
+
+//==============================Global Variabels======================================//
+
+bool Ends = 0, TurnLS1 = 0, TurnLS2 = 0,
+     ForwardR = 0, TurnR = 0, Reversing = 0;
+     
+unsigned long ForwardRT = 0;
+
+//==================================Void Setup========================================//
 
 void setup() {
   motors.initIOMotor();
@@ -35,8 +54,7 @@ void setup() {
   motors.setDurs(10, 4);
 }
 
-bool Ends = 0, TurnLS1 = 0, TurnLS2 = 0, ForwardR = 0, TurnR = 0, Reversing = 0;
-unsigned long ForwardRT = 0;
+//==================================Void Loop=========================================//
 
 void loop() {
   if (Ends) {
@@ -84,6 +102,8 @@ void loop() {
     makeDecision();
   }
 }
+
+//===========================Make Car Decision Defenetion=============================//
 
 void makeDecision() {
   if (isBlack(irC) && isBlack(irCR) && isBlack(irL) && isBlack(irR)) {
